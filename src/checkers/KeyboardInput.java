@@ -12,9 +12,38 @@ import java.awt.event.KeyListener;
  *
  * @author aidan
  */
-public abstract class KeyboardInput implements KeyListener
+public class KeyboardInput implements KeyListener
 {
-    public void KeyPressed(KeyEvent e)
+    @Override
+    public void keyReleased(KeyEvent e)
+    {
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+        {
+            Checkers.moveSelection(1, 0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_LEFT)
+        {
+            Checkers.moveSelection(-1, 0);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_UP)
+        {
+            Checkers.moveSelection(0, -1);
+        }
+        else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+        {
+            Checkers.moveSelection(0, 1);
+        }
+        
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent e)
+    {
+        
+    }
+    
+    @Override
+    public void keyTyped(KeyEvent e)
     {
         
     }

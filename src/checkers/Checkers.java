@@ -7,8 +7,6 @@ package checkers;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -17,7 +15,7 @@ import javax.swing.JPanel;
  *
  * @author aidan
  */
-public class Checkers extends JPanel implements Runnable, KeyListener{
+public class Checkers extends JPanel implements Runnable{
     static int squareSize = 60,counter = 0;
     static int selectedX, selectedY;
     static Color[][] colors = new Color[8][8];
@@ -26,10 +24,7 @@ public class Checkers extends JPanel implements Runnable, KeyListener{
     /**
      * @param args the command line arguments
      */
-    public Checkers()
-    {
-        this.addKeyListener(this);
-    }
+    @Override
     public void paintComponent(Graphics g)
     {
         boolean toggle = false;
@@ -82,12 +77,14 @@ public class Checkers extends JPanel implements Runnable, KeyListener{
             }
         }
         Checkers c = new Checkers();
+        KeyboardInput input = new KeyboardInput();
+        
         JFrame frame = new JFrame();
-        frame.setSize(squareSize * 8, squareSize * 8);
+        frame.setSize(squareSize * colors[0].length, squareSize * colors.length);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(c);
-        frame.addKeyListener(c);
+        frame.addKeyListener(input);
         
         
         Thread t = new Thread(c);
@@ -100,16 +97,35 @@ public class Checkers extends JPanel implements Runnable, KeyListener{
     {
         selectedX += x;
         selectedY += y;
+        
+        if(selectedX > colors.length-1)
+        {
+            selectedX = 0;
+        }
+        else if(selectedX < 0)
+        {
+            selectedX = colors.length-1;
+        }
+        
+        if(selectedY > colors.length-1)
+        {
+            selectedY = 0;
+        }
+        else if(selectedY < 0)
+        {
+            selectedY = colors.length-1;
+        }
     }
     public void run()
     {
-        try{
-        while(true)
+        try
         {
-            repaint();
-            Thread.sleep(33);
+            while(true)
+            {
+                repaint();
+                Thread.sleep(33);
             
-        }
+            }
         }
         catch(Exception e)
         {
@@ -117,37 +133,5 @@ public class Checkers extends JPanel implements Runnable, KeyListener{
         }
     }
     
-    @Override
-    public void keyReleased(KeyEvent e)
-    {
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-        {
-            Checkers.moveSelection(1, 0);
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_LEFT)
-        {
-            Checkers.moveSelection(-1, 0);
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_UP)
-        {
-            Checkers.moveSelection(0, -1);
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-        {
-            Checkers.moveSelection(0, 1);
-        }
-        
-    }
     
-    @Override
-    public void keyPressed(KeyEvent e)
-    {
-        
-    }
-    
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-        
-    }
 }
