@@ -56,6 +56,7 @@ public class Checkers extends JPanel implements Runnable{
         }
         g.setColor(Color.yellow);
         g.drawString(String.format("%d", counter), 12, 12);
+        g.fillOval(0, 0, squareSize, squareSize);
         counter++;
         
     }

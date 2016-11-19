@@ -17,6 +17,7 @@ public class KeyboardInput implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
+        //asda
         if(e.getKeyCode() == KeyEvent.VK_RIGHT)
         {
             Checkers.moveSelection(1, 0);
