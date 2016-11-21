@@ -18,6 +18,15 @@ public class Vector2
         this.y = y;
     }
     
+    public void addX(int n)
+    {
+        x+=n;
+    }
+    
+    public void addY(int n)
+    {
+        y+=n;
+    }
     public void setX(int newX)
     {
         x = newX;

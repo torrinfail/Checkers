@@ -15,10 +15,12 @@ import javax.swing.JPanel;
  *
  * @author aidan
  */
-public class Checkers extends JPanel implements Runnable{
+public class Checkers extends JPanel{
     static int squareSize = 60,counter = 0;
     static int selectedX, selectedY;
+    static Vector2 selectedSquare = new Vector2(0,0);
     static Color[][] colors = new Color[8][8];
+    static Color primaryColor = Color.LIGHT_GRAY, secondaryColor = Color.darkGray, primaryPieceColor = Color.black, secondaryPieceColor = Color.red;
     
 
     /**
@@ -32,7 +34,7 @@ public class Checkers extends JPanel implements Runnable{
         {
             for(int j = 0; j < colors[i].length; j++)
             {
-                if(i == selectedY && j == selectedX)
+                if(i == selectedSquare.getY() && j == selectedSquare.getX())
                 {
                     g.setColor(Color.pink);
                     g.fillRect(j * squareSize, i * squareSize, squareSize, squareSize);
@@ -40,23 +42,30 @@ public class Checkers extends JPanel implements Runnable{
                 }
                 else if(toggle)
                 {
-                    g.setColor(Color.red);
+                    g.setColor(primaryColor);
                     g.fillRect(j * squareSize, i * squareSize, squareSize, squareSize);
                     toggle = !toggle;
                 }
                 
                 else
                 {
-                    g.setColor(Color.black);
+                    g.setColor(secondaryColor);
                     g.fillRect(j * squareSize, i * squareSize, squareSize, squareSize);
                     toggle = !toggle;
                 }
             }
             toggle = !toggle;
         }
-        g.setColor(Color.yellow);
+        g.setColor(primaryPieceColor);
+        for(int i = 0; i < 3; i++)
+        {
+            for(int j = 0; j < 8; j += 2)
+            {
+                g.fillOval(j * squareSize, i * squareSize, squareSize, squareSize);
+            }
+        }
         g.drawString(String.format("%d", counter), 12, 12);
-        g.fillOval(0, 0, squareSize, squareSize);
+        
         counter++;
         
     }
@@ -87,37 +96,37 @@ public class Checkers extends JPanel implements Runnable{
         frame.add(c);
         frame.addKeyListener(input);
         
-        
-        Thread t = new Thread(c);
-        t.join();
-        t.start();
+        c.gameLoop();
+        //Thread t = new Thread(c);
+        //t.join();
+        //t.start();
         
         
     }
     public static void moveSelection(int x ,int y)
     {
-        selectedX += x;
-        selectedY += y;
+        selectedSquare.addX(x);
+        selectedSquare.addY(y);
         
-        if(selectedX > colors.length-1)
+        if(selectedSquare.getX() > colors.length-1)
         {
-            selectedX = 0;
+            selectedSquare.setX(0);
         }
-        else if(selectedX < 0)
+        else if(selectedSquare.getX() < 0)
         {
-            selectedX = colors.length-1;
+            selectedSquare.setX(colors.length-1);
         }
         
-        if(selectedY > colors.length-1)
+        if(selectedSquare.getY() > colors.length-1)
         {
-            selectedY = 0;
+            selectedSquare.setY(0);
         }
-        else if(selectedY < 0)
+        else if(selectedSquare.getY() < 0)
         {
-            selectedY = colors.length-1;
+            selectedSquare.setY(colors.length-1);
         }
     }
-    public void run()
+    public void gameLoop()
     {
         try
         {
