@@ -16,10 +16,12 @@ import javax.swing.JPanel;
  * @author aidan
  */
 public class Checkers extends JPanel{
-    static int squareSize = 60,counter = 0;
+    static int squareSize = 80,counter = 0;
     static int selectedX, selectedY;
     static Vector2 selectedSquare = new Vector2(0,0);
     static Color[][] colors = new Color[8][8];
+    public Board board = new Board(Color.LIGHT_GRAY, Color.black);
+    public Cursor cursor = new Cursor(Color.cyan, new Vector2 (0,0));
     static Color primaryColor = Color.LIGHT_GRAY, secondaryColor = Color.darkGray, primaryPieceColor = Color.black, secondaryPieceColor = Color.red;
     
 
@@ -29,63 +31,29 @@ public class Checkers extends JPanel{
     @Override
     public void paintComponent(Graphics g)
     {
-        boolean toggle = false;
-        for(int i = 0; i < colors.length; i++)
+        Tile[][] spaces = this.board.getSpaces();
+        for(int i = 0; i < this.board.getSpaces().length; i++)
         {
-            for(int j = 0; j < colors[i].length; j++)
+            for(int j = 0; j < this.board.getSpaces()[0].length; j++)
             {
-                if(i == selectedSquare.getY() && j == selectedSquare.getX())
+                if(i == this.cursor.getPosition().getY() && j == this.cursor.getPosition().getX())
                 {
-                    g.setColor(Color.pink);
-                    g.fillRect(j * squareSize, i * squareSize, squareSize, squareSize);
-                    toggle = !toggle;
+                    g.setColor(this.cursor.getColor());
                 }
-                else if(toggle)
-                {
-                    g.setColor(primaryColor);
-                    g.fillRect(j * squareSize, i * squareSize, squareSize, squareSize);
-                    toggle = !toggle;
-                }
-                
                 else
                 {
-                    g.setColor(secondaryColor);
-                    g.fillRect(j * squareSize, i * squareSize, squareSize, squareSize);
-                    toggle = !toggle;
+                    g.setColor(this.board.getSpaces()[i][j].getColor());
                 }
-            }
-            toggle = !toggle;
-        }
-        g.setColor(primaryPieceColor);
-        for(int i = 0; i < 3; i++)
-        {
-            for(int j = 0; j < 8; j += 2)
-            {
-                g.fillOval(j * squareSize, i * squareSize, squareSize, squareSize);
+                g.fillRect(spaces[i][j].getposition().getX(), spaces[i][j].getposition().getY(), squareSize, squareSize);
             }
         }
-        g.drawString(String.format("%d", counter), 12, 12);
-        
-        counter++;
         
     }
+
     public static void main(String[] args) throws InterruptedException 
     {
-        for(int i = 0; i < colors.length; i++)
-        {
-            for(int j = 0; j < colors[i].length; j++)
-            {
-                if(j%2 == 0)
-                {
-                    colors[i][j] = Color.red;
-                }
-               
-                else
-                {
-                    colors[i][j] = Color.black;
-                }
-            }
-        }
+        
+
         Checkers c = new Checkers();
         KeyboardInput input = new KeyboardInput();
         
@@ -95,6 +63,7 @@ public class Checkers extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(c);
         frame.addKeyListener(input);
+        
         
         c.gameLoop();
         //Thread t = new Thread(c);
@@ -132,9 +101,9 @@ public class Checkers extends JPanel{
         {
             while(true)
             {
-                repaint();
+                repaint(); 
+                this.cursor.movePosition(selectedSquare);
                 Thread.sleep(33);
-            
             }
         }
         catch(Exception e)

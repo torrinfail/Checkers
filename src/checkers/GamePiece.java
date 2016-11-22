@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package finalproject;
+package checkers;
+
+import java.awt.Color;
 
 /**
  *
@@ -11,16 +13,16 @@ package finalproject;
  */
 public class GamePiece {
     private int position;
-    private String color;
+    private Color color;
     private boolean kinged;
     private boolean dead; 
     
-    public GamePiece(String color, int position)
+    public GamePiece(Color color, int position)
     {
         this.color = color;
         this.position = position;         
     }
-    public String getcolor()
+    public Color getcolor()
     {
         return color;
     }
@@ -35,7 +37,7 @@ public class GamePiece {
         return kinged;
     }
     
-    public void moveposition
+    public void moveposition()
     {
         
     }

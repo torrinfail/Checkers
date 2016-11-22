@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package finalproject;
+package checkers;
+
+import java.awt.Color;
 
 /**
  *
@@ -11,11 +13,22 @@ package finalproject;
  */
 public class Tile {
     
-    private int position[];
+    private Vector2 position;
     private boolean isOccupied;
-    private String color; 
+    private Color color; 
     
-    public int [] getposition()
+    public Tile(Color color, Vector2 position)
+    {
+        this.color = color;
+        this.position = position;
+    }
+    
+    public Color getColor()
+    {
+        return color;
+    }
+    
+    public Vector2 getposition()
             {
                return position;
             }

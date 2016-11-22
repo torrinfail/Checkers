@@ -17,22 +17,21 @@ public class KeyboardInput implements KeyListener
     @Override
     public void keyReleased(KeyEvent e)
     {
-        //asda
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-        {
-            Checkers.moveSelection(1, 0);
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_LEFT)
-        {
-            Checkers.moveSelection(-1, 0);
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_UP)
-        {
-            Checkers.moveSelection(0, -1);
-        }
-        else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-        {
-            Checkers.moveSelection(0, 1);
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_RIGHT:
+                Checkers.moveSelection(1, 0);
+                break;
+            case KeyEvent.VK_LEFT:
+                Checkers.moveSelection(-1, 0);
+                break;
+            case KeyEvent.VK_UP:
+                Checkers.moveSelection(0, -1);
+                break;
+            case KeyEvent.VK_DOWN:
+                Checkers.moveSelection(0, 1);
+                break;
+            default:
+                break;
         }
         
     }
