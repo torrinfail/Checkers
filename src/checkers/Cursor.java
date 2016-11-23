@@ -55,4 +55,26 @@ public class Cursor
         return color;
     }
     
+    public Color getvalidColor()
+    {
+        return validColor;
+    }
+    
+    public Color getinvalidColor()
+    {
+        return invalidColor;
+    }
+    
+    public void setvalidColor(Color newColor)
+    {
+        validColor = newColor;
+    }
+    
+    public void setinvalidColor(Color newInvalidColor)
+    {
+        invalidColor = newInvalidColor;
+    }
+    
+    
+    
 }
