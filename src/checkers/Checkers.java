@@ -23,6 +23,7 @@ public class Checkers extends JPanel{
     public Board board = new Board(Color.LIGHT_GRAY, Color.black);
     public Cursor cursor = new Cursor(Color.cyan, new Vector2 (0,0));
     static Color primaryColor = Color.LIGHT_GRAY, secondaryColor = Color.darkGray, primaryPieceColor = Color.black, secondaryPieceColor = Color.red;
+    public GamePiece gP = new GamePiece(Color.RED, board.getSpaces()[3][4].getposition());
     public enum Turn{
         PLAYER_1(1, "Player 1"),
         PLAYER_2(-1,"Player 2");
@@ -81,6 +82,7 @@ public class Checkers extends JPanel{
         frame.add(c);
         frame.addKeyListener(input);
         c.turn = Turn.PLAYER_2;
+        c.gP.generatePosibleMoves(c.board.getSpaces());
         
         c.gameLoop();        
     }

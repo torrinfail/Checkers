@@ -15,7 +15,7 @@ public class Tile {
     
     private Vector2 position;
     private boolean isOccupied;
-    private Color color; 
+    private Color color, defaultColor; 
     
     public Tile(Color color, Vector2 position)
     {
@@ -26,6 +26,10 @@ public class Tile {
     public Color getColor()
     {
         return color;
+    }
+    public void setColor(Color c)
+    {
+        color = c;
     }
     
     public Vector2 getposition()
@@ -41,4 +45,8 @@ public class Tile {
             {
                 return isOccupied;
             }
+    public Vector2 getIndex()
+    {
+        return new Vector2(position.getX() / Checkers.squareSize, position.getY() / Checkers.squareSize);
+    }
 }
