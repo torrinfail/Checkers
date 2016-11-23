@@ -23,6 +23,23 @@ public class Checkers extends JPanel{
     public Board board = new Board(Color.LIGHT_GRAY, Color.black);
     public Cursor cursor = new Cursor(Color.cyan, new Vector2 (0,0));
     static Color primaryColor = Color.LIGHT_GRAY, secondaryColor = Color.darkGray, primaryPieceColor = Color.black, secondaryPieceColor = Color.red;
+    public enum Turn{
+        PLAYER_1(1, "Player 1"),
+        PLAYER_2(-1,"Player 2");
+        public final int direction;
+        private final String label;
+        Turn(int direction, String label)
+        {
+            this.direction = direction;
+            this.label = label;
+        }
+        @Override
+        public String toString()
+        {
+            return label;
+        }
+    }
+    public Turn turn;
     
 
     /**
@@ -47,7 +64,7 @@ public class Checkers extends JPanel{
                 g.fillRect(spaces[i][j].getposition().getX(), spaces[i][j].getposition().getY(), squareSize, squareSize);
             }
         }
-        
+        g.drawString(this.turn.toString(), squareSize * colors.length, 45);
     }
 
     public static void main(String[] args) throws InterruptedException 
@@ -63,14 +80,9 @@ public class Checkers extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(c);
         frame.addKeyListener(input);
+        c.turn = Turn.PLAYER_2;
         
-        
-        c.gameLoop();
-        //Thread t = new Thread(c);
-        //t.join();
-        //t.start();
-        
-        
+        c.gameLoop();        
     }
     public static void moveSelection(int x ,int y)
     {
@@ -96,7 +108,7 @@ public class Checkers extends JPanel{
         }
     }
     public void gameLoop()
-    {
+    {   
         try
         {
             while(true)
@@ -106,10 +118,7 @@ public class Checkers extends JPanel{
                 Thread.sleep(33);
             }
         }
-        catch(Exception e)
-        {
-            
-        }
+        catch(InterruptedException e){}
     }
     
     
