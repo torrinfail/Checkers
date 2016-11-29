@@ -17,13 +17,15 @@ public class GamePiece {
     private Color color;
     private boolean kinged;
     private boolean dead; 
+    private Turn team;
     private ArrayList <Tile> possibleMoves = new ArrayList <Tile>(); 
     //private Tile[] possibleMoves;
     
-    public GamePiece(Color color, Vector2 position)
+    public GamePiece(Color color, Vector2 position, Turn team)
     {
         this.color = color;
         this.position = position;         
+        this.team = team;
     }
     public Color getcolor()
     {
@@ -52,30 +54,43 @@ public class GamePiece {
     
     public void generatePosibleMoves(Tile[][] tiles)
     {
-        if(tiles[getIndex().getY() - 1][getIndex().getX() + 1].getoccupied() == false)
-        {
-            possibleMoves.add(tiles[getIndex().getY() - 1][getIndex().getX() + 1]);
-        }
-        else if(tiles[getIndex().getY() - 1][getIndex().getX() + 1].getoccupied() == true
-                &&tiles[getIndex().getY() - 2][getIndex().getX() + 2].getoccupied() == false)
-        {
-            possibleMoves.add(tiles[getIndex().getY() - 2][getIndex().getX() + 2]);
-        }
+        generatePosibleMoves(tiles, getIndex().getX(), getIndex().getY(), true);
+    }
+    public void generatePosibleMoves(Tile[][] tiles, int x, int y, boolean firstMove)
+    {
         
-        if(tiles[getIndex().getY() + 1][getIndex().getX() + 1].getoccupied() == false)
+        try{
+        if(!tiles[y + (1* team.direction)][x + 1].getoccupied() && firstMove)
         {
-            possibleMoves.add(tiles[getIndex().getY() + 1][getIndex().getX() + 1]);
+            possibleMoves.add(tiles[y + (1* team.direction)][x + 1]);
         }
-        else if(tiles[getIndex().getY() - 1][getIndex().getX() + 1].getoccupied() == true
-                &&tiles[getIndex().getY() - 2][getIndex().getX() + 2].getoccupied() == false)
+        else if(tiles[y + (1* team.direction)][getIndex().getX() + 1].getoccupied() == true
+                &&tiles[y + (2* team.direction)][getIndex().getX() + 2].getoccupied() == false)
         {
-            possibleMoves.add(tiles[getIndex().getY() - 2][getIndex().getX() + 2]);
+            possibleMoves.add(tiles[y + (2* team.direction)][x + 2]);
+            generatePosibleMoves(tiles,x + 2, y + (2* team.direction), false);
+        }
+        }
+        catch(IndexOutOfBoundsException e){}
+        try{
+        if(tiles[y + (1* team.direction)][x - 1].getoccupied() == false  && firstMove)
+        {
+            possibleMoves.add(tiles[y + (1* team.direction)][x - 1]);
+        }
+        else if(tiles[y + (1* team.direction)][x - 1].getoccupied() == true
+                &&tiles[y + (2* team.direction)][x - 2].getoccupied() == false)
+        {
+            possibleMoves.add(tiles[y + (2* team.direction)][x - 2]);
+            generatePosibleMoves(tiles,x - 2, y + (2* team.direction), false);
         }
         
         for (Tile possibleMove : possibleMoves) 
         {
             possibleMove.setColor(Color.GREEN);
         }
+        }
+        catch(IndexOutOfBoundsException e){}
+        
     }
   
      public Vector2 getIndex()

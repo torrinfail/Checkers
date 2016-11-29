@@ -13,11 +13,16 @@ import java.awt.event.KeyListener;
  * @author aidan
  */
 public class KeyboardInput implements KeyListener
+        
 {
+    public Checkers c;
     @Override
     public void keyReleased(KeyEvent e)
     {
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_ENTER:
+                c.cursor.setSelectedPiece(c.board.getSpaces()[c.cursor.getPosition().getY()  / Checkers.squareSize][c.cursor.getPosition().getX() / Checkers.squareSize]);
+                break;
             case KeyEvent.VK_RIGHT:
                 Checkers.moveSelection(1, 0);
                 break;

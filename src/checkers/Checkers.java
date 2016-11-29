@@ -23,23 +23,11 @@ public class Checkers extends JPanel{
     public Board board = new Board(Color.LIGHT_GRAY, Color.black);
     public Cursor cursor = new Cursor(Color.cyan, new Vector2 (0,0));
     static Color primaryColor = Color.LIGHT_GRAY, secondaryColor = Color.darkGray, primaryPieceColor = Color.black, secondaryPieceColor = Color.red;
-    public GamePiece gP = new GamePiece(Color.RED, board.getSpaces()[3][4].getposition());
-    public enum Turn{
-        PLAYER_1(1, "Player 1"),
-        PLAYER_2(-1,"Player 2");
-        public final int direction;
-        private final String label;
-        Turn(int direction, String label)
-        {
-            this.direction = direction;
-            this.label = label;
-        }
-        @Override
-        public String toString()
-        {
-            return label;
-        }
-    }
+    public GamePiece selectedPiece;
+    public GamePiece[] player1Pieces = new GamePiece[12];
+    public GamePiece[] player2Pieces = new GamePiece[12];
+    
+    
     public Turn turn;
     
 
@@ -65,6 +53,12 @@ public class Checkers extends JPanel{
                 g.fillRect(spaces[i][j].getposition().getX(), spaces[i][j].getposition().getY(), squareSize, squareSize);
             }
         }
+        
+        g.setColor(player1Pieces[0].getcolor());
+        for(GamePiece current : player1Pieces)
+        {
+            g.fillOval(current.getposition().getX(), current.getposition().getY(), squareSize, squareSize);
+        }
         g.drawString(this.turn.toString(), squareSize * colors.length, 45);
     }
 
@@ -74,6 +68,7 @@ public class Checkers extends JPanel{
 
         Checkers c = new Checkers();
         KeyboardInput input = new KeyboardInput();
+        input.c = c;
         
         JFrame frame = new JFrame();
         frame.setSize(squareSize * colors[0].length, squareSize * colors.length);
@@ -82,7 +77,22 @@ public class Checkers extends JPanel{
         frame.add(c);
         frame.addKeyListener(input);
         c.turn = Turn.PLAYER_2;
-        c.gP.generatePosibleMoves(c.board.getSpaces());
+        //c.board.getSpaces()[6][3].setoccupied(true);
+        //c.board.getSpaces()[4][1].setoccupied(true);
+        //c.gP.generatePosibleMoves(c.board.getSpaces());
+        {
+            int counter = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                c.player1Pieces[counter] = new GamePiece(Color.blue,new Vector2((i*2+j%2)*squareSize,(c.board.getSpaces().length-1-j)*squareSize),Turn.PLAYER_1);
+                c.board.getSpaces()[c.board.getSpaces().length-1-j][i*2+j%2].setoccupied(true);
+                c.board.getSpaces()[c.board.getSpaces().length-1-j][i*2+j%2].setPiece(c.player1Pieces[counter]);
+                counter++;
+            }
+        }
+        }
         
         c.gameLoop();        
     }
@@ -122,6 +132,8 @@ public class Checkers extends JPanel{
         }
         catch(InterruptedException e){}
     }
+    
+    
     
     
 }

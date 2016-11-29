@@ -16,6 +16,7 @@ public class Tile {
     private Vector2 position;
     private boolean isOccupied;
     private Color color, defaultColor; 
+    private GamePiece currentPiece;
     
     public Tile(Color color, Vector2 position)
     {
@@ -37,9 +38,9 @@ public class Tile {
                return position;
             }
     
-    public boolean setoccupied()
+    public void setoccupied(boolean b)
             {
-                return isOccupied;
+                isOccupied = b;
             }
     public boolean getoccupied()
             {
@@ -48,5 +49,14 @@ public class Tile {
     public Vector2 getIndex()
     {
         return new Vector2(position.getX() / Checkers.squareSize, position.getY() / Checkers.squareSize);
+    }
+    
+    public GamePiece getPiece()
+    {
+        return currentPiece;
+    }
+    public void setPiece(GamePiece p)
+    {
+        currentPiece = p;
     }
 }
