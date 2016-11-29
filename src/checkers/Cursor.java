@@ -41,9 +41,12 @@ public class Cursor
         return selectedPosition;
     }
     
-    public void setSelectedPiece(GamePiece newPiece)
+    public void setSelectedPiece(Tile t)
     {
-        selectedPiece = newPiece;
+        if(t.getPiece() != null)
+        {
+            selectedPiece = t.getPiece();
+        }
     }
     public GamePiece getSelectedPiece()
     {
