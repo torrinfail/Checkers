@@ -7,6 +7,7 @@ package checkers;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -54,10 +55,27 @@ public class Checkers extends JPanel{
             }
         }
         
-        g.setColor(player1Pieces[0].getcolor());
+        
         for(GamePiece current : player1Pieces)
         {
+            g.setColor(player1Pieces[0].getcolor());
+            if(!current.isDead()){
             g.fillOval(current.getposition().getX(), current.getposition().getY(), squareSize, squareSize);
+            if(current.getkinged())
+                g.setColor(Color.YELLOW);
+                g.fillOval(current.getposition().getX() + squareSize/4, current.getposition().getY() + squareSize/4, squareSize/2, squareSize/2);
+            }
+        }
+       //g.setColor(player2Pieces[0].getcolor());
+        for(GamePiece current : player2Pieces)
+        {
+            g.setColor(player2Pieces[0].getcolor());
+            if(!current.isDead()){
+                g.fillOval(current.getposition().getX(), current.getposition().getY(), squareSize, squareSize);
+                if(current.getkinged())
+                g.setColor(Color.YELLOW);
+                g.fillOval(current.getposition().getX() + squareSize/4, current.getposition().getY() + squareSize/4, squareSize/2, squareSize/2);
+            }
         }
         g.drawString(this.turn.toString(), squareSize * colors.length, 45);
     }
@@ -65,7 +83,10 @@ public class Checkers extends JPanel{
     public static void main(String[] args) throws InterruptedException 
     {
         
-
+        if(args.length > 0)
+        {
+            squareSize = Integer.parseInt(args[0]);
+        }
         Checkers c = new Checkers();
         KeyboardInput input = new KeyboardInput();
         
@@ -90,6 +111,20 @@ public class Checkers extends JPanel{
                 c.player1Pieces[counter] = new GamePiece(Color.blue,new Vector2((i*2+j%2)*squareSize,(c.board.getSpaces().length-1-j)*squareSize),Turn.PLAYER_1,c.board.getSpaces());
                 c.board.getSpaces()[c.board.getSpaces().length-1-j][i*2+j%2].setoccupied(true);
                 c.board.getSpaces()[c.player1Pieces[counter].getIndex().getY()][c.player1Pieces[counter].getIndex().getX()].setPiece(c.player1Pieces[counter]);
+                counter++;
+            }
+        }
+        }
+        {
+            int counter = 0;
+        for(int i = 0; i < 4; i++)
+        {
+
+            for(int j = 0; j < 3; j++)
+            {
+                c.player2Pieces[counter] = new GamePiece(Color.red,new Vector2((i*2+9%(j+2))*squareSize,(j)*squareSize),Turn.PLAYER_2,c.board.getSpaces());
+                c.board.getSpaces()[j][i*2+j%2].setoccupied(true);
+                c.board.getSpaces()[c.player2Pieces[counter].getIndex().getY()][c.player2Pieces[counter].getIndex().getX()].setPiece(c.player2Pieces[counter]);
                 counter++;
             }
         }
@@ -128,10 +163,21 @@ public class Checkers extends JPanel{
             {
                 repaint(); 
                 this.cursor.movePosition(selectedSquare);
+                
                 Thread.sleep(33);
             }
         }
         catch(InterruptedException e){}
+    }
+    
+    public void fullCleanup()
+    {
+        for (int i = 0; i < this.board.getSpaces().length; i++) {
+
+            for (Tile t : this.board.getSpaces()[i]) {
+                t.killPieces = new ArrayList<GamePiece>();
+            }
+        }
     }
     
     

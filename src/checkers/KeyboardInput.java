@@ -26,6 +26,7 @@ public class KeyboardInput implements KeyListener
                     c.cursor.getSelectedPiece().movePosition(c.board.getSpaces()[Checkers.selectedSquare.getY()][Checkers.selectedSquare.getX()]);
                     c.cursor.getSelectedPiece().cleanup();
                     c.cursor.setSelectedPiece(null);
+                    c.fullCleanup();
                 }
                 else{
                 c.cursor.setSelectedPiece(c.board.getSpaces()[Checkers.selectedSquare.getY()][Checkers.selectedSquare.getX()].getPiece());

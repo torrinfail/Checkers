@@ -6,6 +6,7 @@
 package checkers;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Tile {
     private boolean isOccupied;
     private Color color, defaultColor; 
     private GamePiece currentPiece;
+    public ArrayList<GamePiece> killPieces = new ArrayList<GamePiece>();
     
     public Tile(Color color, Vector2 position)
     {
@@ -64,5 +66,22 @@ public class Tile {
     public void setPiece(GamePiece p)
     {
         currentPiece = p;
+        if(p != null)
+        {
+            isOccupied = true;
+        }
+        else
+        {
+            isOccupied = false;
+        }
+    }
+    
+    public void killPieces()
+    {
+        for(GamePiece p : killPieces)
+        {
+            p.kill();
+        }
+        killPieces = new ArrayList<GamePiece>();
     }
 }
