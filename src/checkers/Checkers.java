@@ -68,7 +68,7 @@ public class Checkers extends JPanel{
 
         Checkers c = new Checkers();
         KeyboardInput input = new KeyboardInput();
-        input.c = c;
+        
         
         JFrame frame = new JFrame();
         frame.setSize(squareSize * colors[0].length, squareSize * colors.length);
@@ -84,16 +84,17 @@ public class Checkers extends JPanel{
             int counter = 0;
         for(int i = 0; i < 4; i++)
         {
+
             for(int j = 0; j < 3; j++)
             {
-                c.player1Pieces[counter] = new GamePiece(Color.blue,new Vector2((i*2+j%2)*squareSize,(c.board.getSpaces().length-1-j)*squareSize),Turn.PLAYER_1);
+                c.player1Pieces[counter] = new GamePiece(Color.blue,new Vector2((i*2+j%2)*squareSize,(c.board.getSpaces().length-1-j)*squareSize),Turn.PLAYER_1,c.board.getSpaces());
                 c.board.getSpaces()[c.board.getSpaces().length-1-j][i*2+j%2].setoccupied(true);
-                c.board.getSpaces()[c.board.getSpaces().length-1-j][i*2+j%2].setPiece(c.player1Pieces[counter]);
+                c.board.getSpaces()[c.player1Pieces[counter].getIndex().getY()][c.player1Pieces[counter].getIndex().getX()].setPiece(c.player1Pieces[counter]);
                 counter++;
             }
         }
         }
-        
+        input.c = c;
         c.gameLoop();        
     }
     public static void moveSelection(int x ,int y)

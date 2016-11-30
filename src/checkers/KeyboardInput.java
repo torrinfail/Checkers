@@ -21,9 +21,23 @@ public class KeyboardInput implements KeyListener
     {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ENTER:
-                c.cursor.setSelectedPiece(c.board.getSpaces()[c.cursor.getPosition().getY()  / Checkers.squareSize][c.cursor.getPosition().getX() / Checkers.squareSize]);
+                if(c.cursor.getSelectedPiece() != null)
+                {
+                    c.cursor.getSelectedPiece().movePosition(c.board.getSpaces()[Checkers.selectedSquare.getY()][Checkers.selectedSquare.getX()]);
+                    c.cursor.getSelectedPiece().cleanup();
+                    c.cursor.setSelectedPiece(null);
+                }
+                else{
+                c.cursor.setSelectedPiece(c.board.getSpaces()[Checkers.selectedSquare.getY()][Checkers.selectedSquare.getX()].getPiece());
+                //if(c.cursor.getSelectedPiece() != null)
+                //c.cursor.getColor();
+                c.cursor.getSelectedPiece().generatePosibleMoves(c.board.getSpaces());
+                }
+                   
+                
                 break;
             case KeyEvent.VK_RIGHT:
+                System.out.println(c.cursor.getIndex().getX());
                 Checkers.moveSelection(1, 0);
                 break;
             case KeyEvent.VK_LEFT:
@@ -34,6 +48,7 @@ public class KeyboardInput implements KeyListener
                 break;
             case KeyEvent.VK_DOWN:
                 Checkers.moveSelection(0, 1);
+                System.out.println(Checkers.selectedSquare.getY());
                 break;
             default:
                 break;

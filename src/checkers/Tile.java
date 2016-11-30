@@ -21,7 +21,13 @@ public class Tile {
     public Tile(Color color, Vector2 position)
     {
         this.color = color;
+        defaultColor = color;
         this.position = position;
+    }
+    
+    public Color getDefaultColor()
+    {
+        return defaultColor;
     }
     
     public Color getColor()

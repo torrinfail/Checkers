@@ -41,12 +41,11 @@ public class Cursor
         return selectedPosition;
     }
     
-    public void setSelectedPiece(Tile t)
+    public void setSelectedPiece(GamePiece p)
     {
-        if(t.getPiece() != null)
-        {
-            selectedPiece = t.getPiece();
-        }
+        
+            selectedPiece = p;
+        
     }
     public GamePiece getSelectedPiece()
     {
@@ -76,6 +75,10 @@ public class Cursor
     public void setinvalidColor(Color newInvalidColor)
     {
         invalidColor = newInvalidColor;
+    }
+    public Vector2 getIndex()
+    {
+        return new Vector2(position.getX() / Checkers.squareSize,position.getY() / Checkers.squareSize);
     }
     
     
